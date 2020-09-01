@@ -1,0 +1,72 @@
+<div style="text-align: right">
+  <a routerLink="">Home</a>
+</div>
+<h3>{{doctor.name}}</h3>
+<p>{{doctor.org}}</p>
+
+<app-appointment *ngIf="showAppointment">
+
+  <div *ngIf="confirmAppointment">
+    <div class="alert alert-success">
+      <strong>Success!</strong>
+    </div>
+      <p><strong>Visit Time Slot :</strong> <span>{{this.appointmentDetails.timeSlot}}</span> </p>
+      <p><strong>Full Name : </strong> <span>{{this.appointmentDetails.fullname}}</span> </p>
+      <p><strong>Phone Number : </strong> <span>{{this.appointmentDetails.phonenumber}}</span> </p>
+      <p><strong>Visit Reason : </strong> <span>{{this.appointmentDetails.visitreason}}</span> </p>
+    <hr>
+    <div align="right">
+      <button type="button" class="btn btn-success" (click)="cancelAppointmentViewHandler()">cancel</button>
+    </div>
+  </div>
+
+  <div *ngIf="!confirmAppointment">
+
+    <h3>{{doctor.name}}</h3>
+    <p>{{doctor.org}}</p>
+    <p>Appointment date: {{selectedDate}}</p>
+
+    <form (ngSubmit)="confirmAppointmentHandler()" #f="ngForm">
+
+      <div class="form-group" *ngIf="showTimeSlot">
+        <label for="timeSlot">Select Visiting Time:</label>
+        <select class="form-control" id="timeSlot" name="timeSlot" ngModel>
+            <option selected value="">Select Time Slot</option>
+            <option value="{{time}}" *ngFor="let time of visitTimeSlot">{{time}}</option>
+        </select>
+        <hr>
+        <div align="right">
+          <button type="button" class="btn btn-success" (click)="continueAppointmentHandler()">Continue</button> |
+          <button type="button" class="btn btn-danger" (click)="cancelAppointmentHandler()">cancel</button>
+        </div>
+      </div>
+
+      <div *ngIf="showAppointmentForm">
+        <div class="form-group">
+          <label for="fullname">Full Name:</label>
+          <input type="text" class="form-control" placeholder="Enter Your Full Name" id="fullname" name="fullname" ngModel>
+        </div>
+        <div class="form-group">
+          <label for="phonenumber">Phone Number:</label>
+          <input type="text" class="form-control" placeholder="Enter Your Phone Number" id="phonenumber" name="phonenumber" ngModel>
+        </div>
+        <div class="form-group">
+          <label for="visitreason">Visit Reason:</label>
+          <textarea class="form-control" placeholder="Describe Visit Reason" rows="5" id="visitreason" name="visitreason" ngModel></textarea>
+        </div>
+        <div align="right">
+          <button type="submit" class="btn btn-success">Confirm</button> |
+          <button type="button" class="btn btn-danger" (click)="cancelAppointmentHandler()">cancel</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</app-appointment>
+
+<div class='demo-app'>
+  <div class='demo-app-main'>
+    <full-calendar
+      [options]='calendarOptions'
+    ></full-calendar>
+  </div>
+</div>
